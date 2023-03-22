@@ -1,8 +1,7 @@
 package data_structure.backtracking;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BackTrackingPermutation_1 {
     public static void main(String[] args) {
@@ -16,6 +15,52 @@ public class BackTrackingPermutation_1 {
         List<String> stringList = new ArrayList<>();
         getAllPossibleCharacterCombination(inputString, "", stringList);
         stringList.forEach(System.out::println);
+
+        //leetcode: problem number46
+        int[] input = new int[]{1, 2, 3};
+        List<List<Integer>> listList = permute(input);
+        assert listList != null;
+        listList.forEach(integers -> System.out.println(integers.toString()));
+
+    }
+
+    public static List<List<Integer>> permute(int[] input) {
+        if (!(1 <= input.length && input.length <= 6))
+            return null;
+        List<Integer> integers = new ArrayList<>();
+        for (int j : input) {
+            if (-10 <= j && j <= 10) {
+                integers.add(j);
+            } else {
+                return null;
+            }
+
+        }
+
+        List<List<Integer>> output = new ArrayList<>();
+        findAllPossibleCombination(integers, List.of(), output);
+        //output.forEach(System.out::println);
+        return output;
+    }
+
+    private static void findAllPossibleCombination(List<Integer> input, List<Integer> tempArray, List<List<Integer>> output) {
+        if (input.size() == 0) {
+            output.add(tempArray);
+        }
+
+        for (int i = 0; i < input.size(); i++) {
+            Integer currentDigit = input.get(i);
+
+            List<Integer> list = new ArrayList<>();
+            list.addAll(input);
+            list.remove(currentDigit);
+
+            List<Integer> integerList = new ArrayList<>();
+            integerList.addAll(tempArray);
+            integerList.add(currentDigit);
+
+            findAllPossibleCombination(list, integerList, output);
+        }
     }
 
 
