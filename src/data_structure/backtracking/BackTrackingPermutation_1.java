@@ -37,6 +37,7 @@ public class BackTrackingPermutation_1 {
     private static void getAllPossibleCharacterCombination(String inputString, String temp, List<String> stringList) {
         if (inputString.length() == 0)
             stringList.add(temp);
+
         for (int i = 0; i < inputString.length(); i++) {
             char currentCharacter = inputString.charAt(i);
             String nextString = inputString.substring(0, i) + inputString.substring(i + 1);
