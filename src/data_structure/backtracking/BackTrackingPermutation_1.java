@@ -1,7 +1,8 @@
 package data_structure.backtracking;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BackTrackingPermutation_1 {
     public static void main(String[] args) {
@@ -22,6 +23,62 @@ public class BackTrackingPermutation_1 {
         assert listList != null;
         listList.forEach(integers -> System.out.println(integers.toString()));
 
+        String givenInput = "ABC";
+        List<String> expectedOutput = new ArrayList<>();
+
+        findAllPermutationAccordingToLexicographically(givenInput, "", expectedOutput);
+        expectedOutput.sort(String::compareTo);
+        expectedOutput.forEach(System.out::println);
+
+        // leetcode problem: 567
+        boolean checkInclusion = checkInclusion("ab", "eidbaooo");
+        System.out.println(checkInclusion);
+        boolean checkInclusion2 = checkInclusion("ab", "eidboaoo");
+        System.out.println(checkInclusion2);
+        boolean checkInclusion3 = checkInclusion("dinitrophenylhydrazine", "acetylphenylhydrazine");
+        System.out.println(checkInclusion3);
+
+    }
+
+    public static boolean checkInclusion(String s1, String s2) {
+        return findAllPermutation(s1, s2);
+    }
+
+    private static boolean findAllPermutation(String s1, String s2) {
+        if (s1.length() > s2.length()) return false;
+        char[] chars = s1.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            String current = String.valueOf(chars[i]);
+            if (!s2.contains(current)) return false;
+        }
+        return true;
+    }
+
+    private static void getAllPossibleCombination(List<String> allBoys, String currentParam, List<String> combinationBoys) {
+        if (allBoys.size() == 0) {
+            combinationBoys.add(currentParam);
+        }
+
+        for (int i = 0; i < allBoys.size(); i++) {
+            String currentBoy = allBoys.get(i);
+
+            List<String> currentLeft = new ArrayList<>(allBoys);
+            currentLeft.remove(currentBoy);
+
+            getAllPossibleCombination(currentLeft, currentParam + currentBoy, combinationBoys);
+        }
+    }
+
+    private static void getAllPossibleCharacterCombination(String inputString, String temp, List<String> stringList) {
+        if (inputString.length() == 0)
+            stringList.add(temp);
+
+        for (int i = 0; i < inputString.length(); i++) {
+            char currentCharacter = inputString.charAt(i);
+            String nextString = inputString.substring(0, i) + inputString.substring(i + 1);
+            String newTemp = currentCharacter + temp;
+            getAllPossibleCharacterCombination(nextString, newTemp, stringList);
+        }
     }
 
     public static List<List<Integer>> permute(int[] input) {
@@ -64,30 +121,17 @@ public class BackTrackingPermutation_1 {
     }
 
 
-    private static void getAllPossibleCombination(List<String> allBoys, String currentParam, List<String> combinationBoys) {
-        if (allBoys.size() == 0) {
-            combinationBoys.add(currentParam);
+    private static void findAllPermutationAccordingToLexicographically(String givenInput, String tempValue, List<String> expectedOutput) {
+        if (givenInput.length() == 0) {
+            expectedOutput.add(tempValue);
         }
 
-        for (int i = 0; i < allBoys.size(); i++) {
-            String currentBoy = allBoys.get(i);
+        for (int i = 0; i < givenInput.length(); i++) {
+            char currentValue = givenInput.charAt(i);
+            String nextInputString = givenInput.substring(0, i) + givenInput.substring(i + 1);
 
-            List<String> currentLeft = new ArrayList<>(allBoys);
-            currentLeft.remove(currentBoy);
-
-            getAllPossibleCombination(currentLeft, currentParam + currentBoy, combinationBoys);
-        }
-    }
-
-    private static void getAllPossibleCharacterCombination(String inputString, String temp, List<String> stringList) {
-        if (inputString.length() == 0)
-            stringList.add(temp);
-
-        for (int i = 0; i < inputString.length(); i++) {
-            char currentCharacter = inputString.charAt(i);
-            String nextString = inputString.substring(0, i) + inputString.substring(i + 1);
-            String newTemp = currentCharacter + temp;
-            getAllPossibleCharacterCombination(nextString, newTemp, stringList);
+            String currentTempValue = currentValue + tempValue;
+            findAllPermutationAccordingToLexicographically(nextInputString, currentTempValue, expectedOutput);
         }
     }
 
