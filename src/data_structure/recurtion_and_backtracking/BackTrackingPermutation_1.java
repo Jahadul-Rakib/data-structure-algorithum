@@ -1,4 +1,4 @@
-package data_structure.backtracking;
+package data_structure.recurtion_and_backtracking;
 
 import java.util.ArrayList;
 import java.util.Arrays;

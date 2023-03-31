@@ -1,4 +1,4 @@
-package data_structure.recurtion;
+package data_structure.recurtion_and_backtracking;
 
 public class PowerOfTwo {
     public static void main(String[] args) {
